@@ -6,15 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import Model.UserModel;
 
 
 public class DatabaseManager {
-	
+    private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class.getName());
     private final static String dbserver = "localhost";
     private final static int dbport = 3306;
-    private final static String dbname = "neuedb";
-    private final static String dbuser = "erhan";
-    private final static String dbpass ="erhan";
+    private final static String dbname = "mydb";
+    private final static String dbuser = "root";
+    private final static String dbpass ="maxpower123";
     private final static String url = "jdbc:mysql://" + dbserver + ":" + dbport + "/" + dbname + "?useSSL=false";
     private static String query = "";
     private static DatabaseManager instance = null;
@@ -52,6 +55,34 @@ public class DatabaseManager {
 	stmt.execute();
 
 	return stmt.getResultSet();
+    }
+    
+    public Boolean validateLoginUser(UserModel user) throws SQLException
+    {
+    	boolean status = false;
+    	query ="select userID,username,password from user where username=? AND password=?;";
+    	PreparedStatement pstmt = con.prepareStatement(query);
+    	pstmt.setString(1, user.getUsername());
+    	pstmt.setString(2, user.getPassword());
+    	LOGGER.info("Query is now ->" + pstmt);
+    	ResultSet rs = ausfuehren(pstmt);
+    	status = rs.next();
+    	user.setId(rs.getInt(1));
+    	return status;
+    }
+
+    public UserModel getUser(UserModel user) throws SQLException
+    {
+    	query ="select * from user where userID=?";
+    	PreparedStatement pstmt = con.prepareStatement(query);
+    	pstmt.setInt(1, user.getId());
+    	ResultSet rs = ausfuehren(pstmt);
+    	rs.next();
+    	user.setUsername(rs.getString(2));
+    	user.setEmail(rs.getString(4));
+    	user.setFirstname(rs.getString(5));
+    	user.setLastname(rs.getString(6));
+    	return user;
     }
     /*
     public ArrayList<login> getAllLoginUser() throws SQLException

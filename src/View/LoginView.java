@@ -1,8 +1,8 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
-public class LoginView extends JFrame {
+public class LoginView extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private final JLabel lblUsername = new JLabel("");
@@ -35,9 +35,7 @@ public class LoginView extends JFrame {
 	 * Launch the application.
 	 */
 	public LoginView() {
-		txtUsername.setText("username");
-		txtUsername.setBounds(44, 203, 174, 20);
-		txtUsername.setColumns(10);
+
 		createContents();
 	}
 	private void createContents() {
@@ -78,5 +76,62 @@ public class LoginView extends JFrame {
 		btnForgotPw.setBounds(30, 302, 89, 23);
 		
 		contentPane.add(btnForgotPw);
+		txtUsername.setText("username");
+		txtUsername.setBounds(44, 203, 174, 20);
+		txtUsername.setColumns(10);
+	}
+	
+	// open the windows
+	public void createWindow() {
+		setActionListener(this);
+		this.setVisible(true);
+	}
+	public void setActionListener(ActionListener l) {
+		btnLogin.addActionListener(l);
+		btnCancel.addActionListener(l);
+		btnForgotPw.addActionListener(l);
+	}
+	private String getTxtUsername() {
+		return txtUsername.getText();
+	}
+	private String getPwdPassword() {
+		return pwdPassword.getText();
+	}
+	private JButton getBtnLogin() {
+		return btnLogin;
+	}
+	private JButton getBtnCancel() {
+		return btnCancel;
+	}
+	private JButton getBtnForgotPw() {
+		return btnForgotPw;
+	}
+	
+	private void loginPressed() {
+		// TODO Auto-generated method stub
+
+	}
+	private void cancelPressed() {
+		
+	}
+	private void forgotPWPressed() {
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == getBtnLogin())
+		{
+			loginPressed();
+		}
+		else if(e.getSource() == getBtnCancel())
+		{
+			cancelPressed();
+		}
+		else if(e.getSource() == getBtnForgotPw())
+		{
+			forgotPWPressed();
+		}
+		
 	}
 }
